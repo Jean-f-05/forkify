@@ -5,6 +5,7 @@ import recipeView from './views/recipeView';
 import searchView from './views/searchView';
 import resultsView from './views/resultsView';
 import paginationView from './views/paginationView';
+import bookmarksView from './views/bookmarksView';
 
 if (module.hot) {
   module.hot.accept();
@@ -19,6 +20,7 @@ const controlRecipes = async function () {
 
     //UPDATE RESULTS VIEW TO MARK SELECTED SEARCH RESULT
     resultsView.update(model.getSearchResultsPage());
+    bookmarksView.update(model.state.bookmarks);
 
     //LOADING RECIPE
     await model.loadRecepie(id);
@@ -69,10 +71,15 @@ const controlServings = function (newServings) {
 };
 
 const controlAddBookmark = function () {
+  //ADD/REMOVE BOOKMARK
   if (!model.state.recipe.bookmarked) model.addBookmark(model.state.recipe);
   else model.deleteBookmark(model.state.recipe.id);
 
+  //UPDATE RECIPE VIEW
   recipeView.update(model.state.recipe);
+
+  //RENDER BOOKMARKS
+  bookmarksView.render(model.state.bookmarks);
 };
 
 const init = function () {
