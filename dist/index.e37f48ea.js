@@ -2271,6 +2271,7 @@ const LoadSearchResults = async function(query) {
                 image: rec.image_url
             };
         });
+        state.search.page = 1;
     } catch (error) {
         console.error(`${error} ERRORRRRR`);
         throw error;
