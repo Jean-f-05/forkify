@@ -2281,7 +2281,6 @@ const loadRecepie = async function(id) {
         if (state.bookmarks.some((bookmark)=>bookmark.id === id
         )) state.recipe.bookmarked = true;
         else state.recipe.bookmarked = false;
-        console.log(state.recipe);
     } catch (error) {
         console.error(`${error} ERRORRRRR`);
         throw error;
@@ -2341,8 +2340,7 @@ const init = function() {
     const storage = localStorage.getItem('bookmarks');
     if (storage) state.bookmarks = JSON.parse(storage);
 };
-init();
-console.log(state.bookmarks); // const clearBookmarks = function () {
+init(); // const clearBookmarks = function () {
  //   localStorage.clear('bookmarks');
  // };
  // clearBookmarks();
