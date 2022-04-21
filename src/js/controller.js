@@ -1,4 +1,5 @@
 import 'core-js/stable';
+import { MODAL_CLOSE_SEC } from './config';
 import 'regenerator-runtime/runtime';
 import * as model from './model';
 import recipeView from './views/recipeView';
@@ -7,6 +8,7 @@ import resultsView from './views/resultsView';
 import paginationView from './views/paginationView';
 import bookmarksView from './views/bookmarksView';
 import addRecipeView from './views/addRecipeView';
+import { setTimeout } from 'core-js';
 
 // if (module.hot) {
 //   module.hot.accept();
@@ -93,6 +95,18 @@ const controlAddRecipe = async function (newRecipe) {
   try {
     //UPLOAD NEW RECIPE DATA
     await model.uploadRecipe(newRecipe);
+    console.log(model.state.recipe);
+
+    //RENDER RECIPE
+    recipeView.render(model.state.recipe);
+
+    //SUCCESS MESSAGE
+    addRecipeView.renderMessage();
+
+    //CLOSE FORM WINDOW
+    setTimeout(() => {
+      addRecipeView.toggleWindow();
+    }, MODAL_CLOSE_SEC * 1000);
   } catch (error) {
     console.error('RRRRRRRRRRRRRR', error);
     addRecipeView.renderError(error.message);
