@@ -1,5 +1,5 @@
 import 'core-js/stable';
-import { MODAL_CLOSE_SEC } from './config';
+import { MODAL_CLOSE_SEC } from './config.js';
 import 'regenerator-runtime/runtime';
 import * as model from './model';
 import recipeView from './views/recipeView';
@@ -93,6 +93,8 @@ const controlBookmarks = function () {
 
 const controlAddRecipe = async function (newRecipe) {
   try {
+    //DISPLAY SPINNER
+    addRecipeView.renderSpinner();
     //UPLOAD NEW RECIPE DATA
     await model.uploadRecipe(newRecipe);
     console.log(model.state.recipe);
@@ -104,7 +106,7 @@ const controlAddRecipe = async function (newRecipe) {
     addRecipeView.renderMessage();
 
     //CLOSE FORM WINDOW
-    setTimeout(() => {
+    setTimeout(function () {
       addRecipeView.toggleWindow();
     }, MODAL_CLOSE_SEC * 1000);
   } catch (error) {

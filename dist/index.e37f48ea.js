@@ -516,7 +516,7 @@ function hmrAcceptRun(bundle, id) {
 },{}],"aenu9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _webImmediateJs = require("core-js/modules/web.immediate.js");
-var _config = require("./config");
+var _configJs = require("./config.js");
 var _runtime = require("regenerator-runtime/runtime");
 var _model = require("./model");
 var _recipeView = require("./views/recipeView");
@@ -596,6 +596,8 @@ const controlBookmarks = function() {
 };
 const controlAddRecipe = async function(newRecipe) {
     try {
+        //DISPLAY SPINNER
+        _addRecipeViewDefault.default.renderSpinner();
         //UPLOAD NEW RECIPE DATA
         await _model.uploadRecipe(newRecipe);
         console.log(_model.state.recipe);
@@ -604,9 +606,9 @@ const controlAddRecipe = async function(newRecipe) {
         //SUCCESS MESSAGE
         _addRecipeViewDefault.default.renderMessage();
         //CLOSE FORM WINDOW
-        _coreJs.setTimeout(()=>{
+        _coreJs.setTimeout(function() {
             _addRecipeViewDefault.default.toggleWindow();
-        }, _config.MODAL_CLOSE_SEC * 1000);
+        }, _configJs.MODAL_CLOSE_SEC * 1000);
     } catch (error) {
         console.error('RRRRRRRRRRRRRR', error);
         _addRecipeViewDefault.default.renderError(error.message);
@@ -623,7 +625,7 @@ const init = function() {
 };
 init();
 
-},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./model":"Y4A21","./views/recipeView":"l60JC","./views/searchView":"9OQAM","./views/resultsView":"cSbZE","./views/paginationView":"6z7bi","./views/bookmarksView":"4Lqzq","./views/addRecipeView":"i6DNj","core-js":"h5Izt","./config":"k5Hzs"}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./model":"Y4A21","./views/recipeView":"l60JC","./views/searchView":"9OQAM","./views/resultsView":"cSbZE","./views/paginationView":"6z7bi","./views/bookmarksView":"4Lqzq","./views/addRecipeView":"i6DNj","core-js":"h5Izt","./config.js":"k5Hzs"}],"49tUX":[function(require,module,exports) {
 var $ = require('../internals/export');
 var global = require('../internals/global');
 var task = require('../internals/task');
