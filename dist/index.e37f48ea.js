@@ -2313,11 +2313,15 @@ const updateServings = function(newServings) {
     });
     state.recipe.servings = newServings;
 };
+const persistBookmarks = function() {
+    localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+};
 const addBookmark = function(recipe) {
     //ADD BOOKMARK
     state.bookmarks.push(recipe);
     //MARK CURRENT RECIPE AS BOOKMARK
     if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+    persistBookmarks();
 };
 const deleteBookmark = function(id) {
     //DELETE BOOKMARK
@@ -2326,6 +2330,7 @@ const deleteBookmark = function(id) {
     state.bookmarks.splice(index, 1);
     //MARK CURRENT RECIPE AS NOT BOOKMARK
     if (id === state.recipe.id) state.recipe.bookmarked = false;
+    persistBookmarks();
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs","./helpers.js":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
