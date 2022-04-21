@@ -538,6 +538,7 @@ const controlRecipes = async function() {
         _recipeViewDefault.default.renderSpinner();
         //UPDATE RESULTS VIEW TO MARK SELECTED SEARCH RESULT
         _resultsViewDefault.default.update(_model.getSearchResultsPage());
+        //UPDATE BOOKMARKS VIEW
         _bookmarksViewDefault.default.update(_model.state.bookmarks);
         //LOADING RECIPE
         await _model.loadRecepie(id);
@@ -586,7 +587,11 @@ const controlAddBookmark = function() {
     //RENDER BOOKMARKS
     _bookmarksViewDefault.default.render(_model.state.bookmarks);
 };
+const controlBookmarks = function() {
+    _bookmarksViewDefault.default.render(_model.state.bookmarks);
+};
 const init = function() {
+    _bookmarksViewDefault.default.addHandlerRender(controlBookmarks);
     _recipeViewDefault.default.addHandlerRender(controlRecipes);
     _recipeViewDefault.default.addHandlerUpdateServings(controlServings);
     _recipeViewDefault.default.addHandlerAddBookmark(controlAddBookmark);
@@ -2332,6 +2337,12 @@ const deleteBookmark = function(id) {
     if (id === state.recipe.id) state.recipe.bookmarked = false;
     persistBookmarks();
 };
+const init = function() {
+    const storage = localStorage.getItem('bookmarks');
+    if (storage) state.bookmarks = JSON.parse(storage);
+};
+init();
+console.log(state.bookmarks);
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs","./helpers.js":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -3014,6 +3025,9 @@ class BookmarksView extends _viewJsDefault.default {
     _parentElement = document.querySelector('.bookmarks__list');
     _errorMessage = 'No bookmarks yet. Find a nice recipe and bookmark it! ;)';
     _message = '';
+    addHandlerRender(handler) {
+        window.addEventListener('load', handler);
+    }
     _generateMarkup() {
         return this._data.map((bookmark)=>_previewViewJsDefault.default.render(bookmark, false)
         ).join('');
