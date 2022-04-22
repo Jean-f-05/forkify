@@ -605,6 +605,8 @@ const controlAddRecipe = async function(newRecipe) {
         _recipeViewDefault.default.render(_model.state.recipe);
         //SUCCESS MESSAGE
         _addRecipeViewDefault.default.renderMessage();
+        //RENDER BOOKMARK VIEW
+        _bookmarksViewDefault.default.render(_model.state.bookmarks);
         //CLOSE FORM WINDOW
         _coreJs.setTimeout(function() {
             _addRecipeViewDefault.default.toggleWindow();
