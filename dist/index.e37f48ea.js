@@ -607,6 +607,8 @@ const controlAddRecipe = async function(newRecipe) {
         _addRecipeViewDefault.default.renderMessage();
         //RENDER BOOKMARK VIEW
         _bookmarksViewDefault.default.render(_model.state.bookmarks);
+        //CHANGE ID IN URL
+        window.history.pushState(null, '', `#${_model.state.recipe.id}`);
         //CLOSE FORM WINDOW
         _coreJs.setTimeout(function() {
             _addRecipeViewDefault.default.toggleWindow();
