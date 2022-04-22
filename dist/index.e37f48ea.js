@@ -2314,7 +2314,7 @@ const createRecipeObject = function(data) {
 };
 const loadRecepie = async function(id) {
     try {
-        const data = await _helpersJs.AJAX(`${_config.API_URL}${id}`);
+        const data = await _helpersJs.AJAX(`${_config.API_URL}${id}?key=${_config.API_KEY}`);
         state.recipe = createRecipeObject(data);
         if (state.bookmarks.some((bookmark)=>bookmark.id === id
         )) state.recipe.bookmarked = true;
@@ -2327,13 +2327,16 @@ const loadRecepie = async function(id) {
 const LoadSearchResults = async function(query) {
     try {
         state.search.query = query;
-        const data = await _helpersJs.AJAX(`${_config.API_URL}?search=${query}`);
+        const data = await _helpersJs.AJAX(`${_config.API_URL}?search=${query}&key=${_config.API_KEY}`);
         state.search.results = data.data.recipes.map((rec)=>{
             return {
                 id: rec.id,
                 title: rec.title,
                 publisher: rec.publisher,
-                image: rec.image_url
+                image: rec.image_url,
+                ...rec.key && {
+                    key: rec.key
+                }
             };
         });
         state.search.page = 1;
@@ -2565,9 +2568,11 @@ class RecipeView extends _viewJsDefault.default {
     </div>
     </div>
 
-    <div class="recipe__user-generated">
-      
-    </div>
+    <div class="recipe__user-generated ${this._data.key ? '' : 'hidden'}">
+    <svg>
+      <use href="${_iconsSvgDefault.default}#icon-user"></use>
+    </svg>
+  </div>
     <button class="btn--round btn--bookmark">
       <svg class="">
         <use href="${_iconsSvgDefault.default}#icon-bookmark${this._data.bookmarked ? '-fill' : ''}"></use>
@@ -3055,9 +3060,13 @@ class previewView extends _viewJsDefault.default {
               <div class="preview__data">
                   <h4 class="preview__title">${this._data.title}</h4>
                   <p class="preview__publisher">${this._data.publisher}</p>
-                  
+                <div class="preview__user-generated ${this._data.key ? '' : 'hidden'}">
+                  <svg>
+                    <use href="${_iconsSvgDefault.default}#icon-user"></use>
+                  </svg>
+                </div>
               </div>
-          </a>
+            </a>
       </li>
       `;
     }
